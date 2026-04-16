@@ -37,10 +37,7 @@ public class MenuController {
 
     @FXML
     protected void onCreditsClick() {
-        Alert credits = new Alert(Alert.AlertType.INFORMATION, "Java Quizz\n\nConcept: Bombe a desamorcer via quiz\nRealisation: Dyskolos_ & PrettyFlacko", ButtonType.OK);
-        credits.setTitle("Credits");
-        credits.setHeaderText("Credits");
-        credits.showAndWait();
+        AppMenuActions.showCredits();
     }
 
     private void showError(String message) {
