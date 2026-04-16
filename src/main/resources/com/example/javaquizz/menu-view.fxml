@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="14.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.javaquizz.MenuController"
+      style="-fx-background-color: #0f172a;">
+    <padding>
+        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0"/>
+    </padding>
+
+    <Button fx:id="restartButton"
+            text="Recommencer"
+            onAction="#onRestartClick"
+            style="-fx-font-size: 18px; -fx-min-width: 240px; -fx-padding: 10 20 10 20;"/>
+
+    <Button text="Quitter"
+            onAction="#onQuitClick"
+            style="-fx-font-size: 18px; -fx-min-width: 240px; -fx-padding: 10 20 10 20;"/>
+
+    <Button text="Credits"
+            onAction="#onCreditsClick"
+            style="-fx-font-size: 18px; -fx-min-width: 240px; -fx-padding: 10 20 10 20;"/>
+</VBox>

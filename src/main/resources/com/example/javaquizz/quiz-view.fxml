@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.javaquizz.QuizController"
+            style="-fx-background-color: #111827;">
+    <top>
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 12 12 0 12;">
+            <MenuButton fx:id="gameMenuButton" text="Menu" style="-fx-font-size: 14px;">
+                <items>
+                    <MenuItem text="Recommencer" onAction="#onRestartClick"/>
+                    <MenuItem text="Credits" onAction="#onCreditsClick"/>
+                    <MenuItem text="Quitter" onAction="#onQuitClick"/>
+                </items>
+            </MenuButton>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="16.0">
+            <padding>
+                <Insets bottom="24.0" left="24.0" right="24.0" top="12.0"/>
+            </padding>
+
+            <Label text="Le quiz commence maintenant"
+                   style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #f8fafc;"/>
+
+            <Label text="Prepare-toi: chaque bonne reponse aide a desamorcer la bombe."
+                   wrapText="true"
+                   style="-fx-font-size: 16px; -fx-text-fill: #cbd5e1;"/>
+        </VBox>
+    </center>
+</BorderPane>
