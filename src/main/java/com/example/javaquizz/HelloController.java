@@ -72,7 +72,7 @@ public class HelloController {
 
             Stage stage = (Stage) nextButton.getScene().getWindow();
             stage.setScene(new Scene(quizRoot, 780, 460));
-            stage.setTitle("Java Quizz - Quiz");
+            stage.setTitle("Java Quizz - Fin");
         } catch (IOException exception) {
             dialogueText.setText("Impossible de charger le quiz pour le moment.");
             nextButton.setDisable(true);
