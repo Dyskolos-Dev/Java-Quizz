@@ -19,10 +19,10 @@ public class HelloController {
     private Button nextButton;
 
     private final List<String> dialogues = List.of(
-            "Agent: Ecoute bien, nous avons une menace de bombe dans le batiment.",
-            "Agent: Tu dois repondre correctement aux questions pour la desamorcer.",
-            "Agent: Chaque bonne reponse te rapproche de la securite.",
-            "Agent: Reste calme. Le chrono tourne deja."
+            "Kiki: QU'est ce que tu fous chez moi jeune Zukuk ?",
+            "Kiki: Attends... ce bip dans ma cave, c'est pas mon micro-ondes. Il y a une bombe chez moi !",
+            "Kiki: Le desamorceur est verrouille par un systeme de questions. Si tu rates, le minuteur accelere.",
+            "Kiki: Reponds juste, vite, et on sauve ma maison. Allez, le quiz commence maintenant !"
     );
 
     private int currentDialogueIndex = 0;
