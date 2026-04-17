@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane style="-fx-background-color: #111827;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="com.example.javaquizz.TriviaQuestionController">
+    <center>
+        <AnchorPane>
+            <children>
+                <ImageView fx:id="backgroundImageView" fitHeight="460.0" fitWidth="780.0" opacity="0.95" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <image>
+                        <Image url="@images/kikihouse.png" />
+                    </image>
+                </ImageView>
+
+                <MenuButton fx:id="gameMenuButton" style="-fx-font-size: 14px;" text="Menu" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+                    <items>
+                        <MenuItem onAction="#onRestartClick" text="Recommencer" />
+                        <MenuItem onAction="#onCreditsClick" text="Credits" />
+                        <MenuItem onAction="#onQuitClick" text="Quitter" />
+                    </items>
+                </MenuButton>
+
+                <VBox fx:id="initialDialogueBox" alignment="CENTER" spacing="20.0" style="-fx-background-color: rgba(15,23,42,0.9); -fx-background-radius: 14; -fx-padding: 30;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="50.0">
+
+                    <HBox alignment="CENTER_LEFT" spacing="20.0">
+                        <ImageView fitHeight="150.0" fitWidth="150.0" preserveRatio="true">
+                            <image>
+                                <Image url="@images/guide.png" />
+                            </image>
+                        </ImageView>
+
+                        <VBox alignment="CENTER" spacing="15.0">
+                            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #f8fafc;" text="Kiki: Reponds juste, vite, et on sauve ma maison." wrapText="true" />
+                            <Label style="-fx-font-size: 16px; -fx-text-fill: #e2e8f0;" text="Allez, le quiz commence maintenant !" wrapText="true" />
+         
+                         <Label fx:id="loadingLabel" alignment="CENTER" style="-fx-font-size: 18px; -fx-text-fill: #f8fafc;" text="Chargement de la question..." />
+                        </VBox>
+                    </HBox>
+
+                    <Button fx:id="startQuizButton" onAction="#onStartQuizClick" style="-fx-font-size: 16px; -fx-padding: 10 25 10 25; -fx-background-radius: 8;" text="Commencer le quiz" />
+                </VBox>
+
+                <VBox fx:id="questionBox" alignment="TOP_CENTER" managed="false" spacing="20.0" style="-fx-padding: 40;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                    <Label fx:id="questionLabel" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #f8fafc; -fx-background-color: rgba(15,23,42,0.85); -fx-background-radius: 12; -fx-padding: 20;" wrapText="true" VBox.vgrow="SOMETIMES" />
+
+                    <VBox fx:id="answersBox" spacing="10.0" VBox.vgrow="SOMETIMES" />
+
+                    <Label fx:id="feedbackLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" wrapText="true" />
+
+                    <Button fx:id="nextButton" managed="false" onAction="#onNextClick" style="-fx-font-size: 14px; -fx-padding: 10 20 10 20;" text="Suivant" visible="false" />
+                </VBox>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
