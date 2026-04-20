@@ -14,6 +14,7 @@ public class TriviaAPI {
     public static Question fetchQuestion() throws Exception {
         HttpURLConnection connection = (HttpURLConnection) new URL(API_URL).openConnection();
         connection.setRequestMethod("GET");
+        connection.setRequestProperty("User-Agent", "Java-Quizz");
         connection.setConnectTimeout(5000);
         connection.setReadTimeout(5000);
 
@@ -31,12 +32,11 @@ public class TriviaAPI {
 
         JsonObject jsonResponse = JsonParser.parseString(response.toString()).getAsJsonObject();
         JsonArray results = jsonResponse.getAsJsonArray("results");
-
-        if (results.size() == 0) {
-            throw new Exception("Aucune question trouvée");
+        if (results == null || results.size() == 0) {
+            throw new Exception("Question indisponible");
         }
-
         JsonObject q = results.get(0).getAsJsonObject();
+
         String questionText = q.get("question").getAsString();
         String correctAnswer = q.get("correct_answer").getAsString();
         JsonArray incorrect = q.getAsJsonArray("incorrect_answers");
