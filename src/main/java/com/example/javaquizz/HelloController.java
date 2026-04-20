@@ -67,12 +67,12 @@ public class HelloController {
 
     private void goToQuizScreen() {
         try {
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("quiz-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("trivia-question-view.fxml"));
             Parent quizRoot = loader.load();
 
             Stage stage = (Stage) nextButton.getScene().getWindow();
             stage.setScene(new Scene(quizRoot, 780, 460));
-            stage.setTitle("Java Quizz - Fin");
+            stage.setTitle("Java Quizz - Quiz");
         } catch (IOException exception) {
             dialogueText.setText("Impossible de charger le quiz pour le moment.");
             nextButton.setDisable(true);
