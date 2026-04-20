@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class HelloApplication extends Application {
     private static final double WINDOW_WIDTH = 780;
@@ -21,7 +22,11 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         hostServices = getHostServices();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+        URL resource = HelloApplication.class.getResource("/com/example/javaquizz/hello-view.fxml");
+        if (resource == null) {
+            throw new IOException("Ressource hello-view.fxml introuvable");
+        }
+        FXMLLoader fxmlLoader = new FXMLLoader(resource);
         Scene scene = new Scene(fxmlLoader.load(), WINDOW_WIDTH, WINDOW_HEIGHT);
 
         stage.setTitle("Java Quizz - Introduction");

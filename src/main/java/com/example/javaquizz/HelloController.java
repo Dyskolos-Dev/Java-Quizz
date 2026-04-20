@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 public class HelloController {
@@ -67,14 +68,18 @@ public class HelloController {
 
     private void goToQuizScreen() {
         try {
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("trivia-question-view.fxml"));
+            URL resource = HelloApplication.class.getResource("/com/example/javaquizz/trivia-question-view.fxml");
+            if (resource == null) {
+                throw new IOException("Ressource trivia-question-view.fxml introuvable");
+            }
+            FXMLLoader loader = new FXMLLoader(resource);
             Parent quizRoot = loader.load();
 
             Stage stage = (Stage) nextButton.getScene().getWindow();
             stage.setScene(new Scene(quizRoot, 780, 460));
             stage.setTitle("Java Quizz - Quiz");
-        } catch (IOException exception) {
-            dialogueText.setText("Impossible de charger le quiz pour le moment.");
+        } catch (Exception exception) {
+            dialogueText.setText("Impossible de charger le quiz");
             nextButton.setDisable(true);
             nextButton.setText("Erreur");
         }

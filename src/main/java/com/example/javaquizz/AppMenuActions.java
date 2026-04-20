@@ -10,6 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public final class AppMenuActions {
     private AppMenuActions() {
@@ -17,7 +18,11 @@ public final class AppMenuActions {
 
     public static void showCredits() {
         try {
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("credits-view.fxml"));
+            URL resource = HelloApplication.class.getResource("/com/example/javaquizz/credits-view.fxml");
+            if (resource == null) {
+                throw new IOException("Ressource credits-view.fxml introuvable");
+            }
+            FXMLLoader loader = new FXMLLoader(resource);
             Parent creditsRoot = loader.load();
 
             Stage creditsStage = new Stage();

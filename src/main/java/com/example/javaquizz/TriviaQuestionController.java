@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class TriviaQuestionController {
     @FXML
@@ -138,7 +139,11 @@ public class TriviaQuestionController {
     @FXML
     protected void onRestartClick() {
         try {
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+            URL resource = HelloApplication.class.getResource("/com/example/javaquizz/hello-view.fxml");
+            if (resource == null) {
+                throw new IOException("Ressource hello-view.fxml introuvable");
+            }
+            FXMLLoader loader = new FXMLLoader(resource);
             Parent introRoot = loader.load();
 
             Stage stage = (Stage) gameMenuButton.getScene().getWindow();
@@ -161,7 +166,11 @@ public class TriviaQuestionController {
 
     private void goToQuizScreen() {
         try {
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("quiz-view.fxml"));
+            URL resource = HelloApplication.class.getResource("/com/example/javaquizz/quiz-view.fxml");
+            if (resource == null) {
+                throw new IOException("Ressource quiz-view.fxml introuvable");
+            }
+            FXMLLoader loader = new FXMLLoader(resource);
             Parent quizRoot = loader.load();
 
             Stage stage = (Stage) gameMenuButton.getScene().getWindow();
