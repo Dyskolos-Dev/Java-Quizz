@@ -163,7 +163,6 @@ public class QuizController {
     private void setDialogueText() {
         finalDialogueText.setText(endDialogues.get(dialogueIndex));
 
-        // Switch to cave background when the group reaches the cave.
         if (dialogueIndex >= 3) {
             backgroundImageView.setImage(new Image(HelloApplication.class.getResource("images/kikicave.png").toExternalForm()));
         } else {

@@ -7,8 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -17,15 +15,6 @@ import java.io.IOException;
 public class TriviaQuestionController {
     @FXML
     private MenuButton gameMenuButton;
-
-    @FXML
-    private ImageView backgroundImageView;
-
-    @FXML
-    private VBox initialDialogueBox;
-
-    @FXML
-    private Button startQuizButton;
 
     @FXML
     private VBox questionBox;
@@ -42,52 +31,44 @@ public class TriviaQuestionController {
     @FXML
     private Button nextButton;
 
-    @FXML
-    private Label loadingLabel;
-
     private TriviaAPI.Question currentQuestion;
-    private boolean answered = false;
+    private boolean answered;
 
     @FXML
     public void initialize() {
-        initialDialogueBox.setVisible(true);
-        initialDialogueBox.setManaged(true);
-        questionBox.setVisible(false);
-        questionBox.setManaged(false);
-        loadingLabel.setVisible(false);
-        loadingLabel.setManaged(false);
-    }
-
-    @FXML
-    protected void onStartQuizClick() {
-        initialDialogueBox.setVisible(false);
-        initialDialogueBox.setManaged(false);
-        loadingLabel.setVisible(true);
-        loadingLabel.setManaged(true);
-
-        new Thread(this::loadQuestion).start();
+        questionBox.setVisible(true);
+        questionBox.setManaged(true);
+        feedbackLabel.setText("Chargement...");
+        nextButton.setVisible(false);
+        nextButton.setManaged(false);
+        loadQuestion();
     }
 
     private void loadQuestion() {
-        try {
-            currentQuestion = TriviaAPI.fetchQuestion();
-            javafx.application.Platform.runLater(this::displayQuestion);
-        } catch (Exception e) {
-            javafx.application.Platform.runLater(() -> {
-                loadingLabel.setText("Erreur: " + e.getMessage());
-            });
-        }
+        new Thread(() -> {
+            try {
+                currentQuestion = TriviaAPI.fetchQuestion();
+                javafx.application.Platform.runLater(this::displayQuestion);
+            } catch (Exception e) {
+                javafx.application.Platform.runLater(() -> {
+                    feedbackLabel.setText("Impossible de charger la question");
+                    answersBox.getChildren().clear();
+                });
+            }
+        }).start();
     }
 
     private void displayQuestion() {
-        loadingLabel.setVisible(false);
-        loadingLabel.setManaged(false);
+        if (currentQuestion == null) {
+            feedbackLabel.setText("Impossible de charger la question");
+            return;
+        }
 
-        questionLabel.setText(currentQuestion.questionText);
+        questionLabel.setText(decodeHtml(currentQuestion.questionText));
         answersBox.getChildren().clear();
 
         for (String answer : currentQuestion.answers) {
-            Button answerButton = new Button(answer);
+            Button answerButton = new Button(decodeHtml(answer));
             answerButton.setStyle("-fx-font-size: 14px; -fx-padding: 10 15 10 15; -fx-background-color: #1e293b; -fx-text-fill: #f8fafc; -fx-border-radius: 8;");
             answerButton.setWrapText(true);
             answerButton.setPrefHeight(60.0);
@@ -107,25 +88,27 @@ public class TriviaQuestionController {
     }
 
     private void onAnswerClick(String selectedAnswer, Button clickedButton) {
-        if (answered) {
+        if (answered || currentQuestion == null) {
             return;
         }
 
         answered = true;
-        boolean isCorrect = selectedAnswer.equals(currentQuestion.correctAnswer);
+        String decodedCorrect = decodeHtml(currentQuestion.correctAnswer);
+        String decodedSelected = decodeHtml(selectedAnswer);
+        boolean isCorrect = decodedSelected.equals(decodedCorrect);
 
         if (isCorrect) {
-            feedbackLabel.setText("✓ Correct!");
+            feedbackLabel.setText("Correct");
             feedbackLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #4ade80;");
             clickedButton.setStyle("-fx-font-size: 14px; -fx-padding: 10 15 10 15; -fx-background-color: #16a34a; -fx-text-fill: #f8fafc; -fx-border-radius: 8;");
         } else {
-            feedbackLabel.setText("✗ Incorrect! La bonne réponse est: " + currentQuestion.correctAnswer);
+            feedbackLabel.setText("Incorrect");
             feedbackLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #ef4444;");
             clickedButton.setStyle("-fx-font-size: 14px; -fx-padding: 10 15 10 15; -fx-background-color: #dc2626; -fx-text-fill: #f8fafc; -fx-border-radius: 8;");
 
             for (int i = 0; i < answersBox.getChildren().size(); i++) {
                 Button btn = (Button) answersBox.getChildren().get(i);
-                if (btn.getText().equals(currentQuestion.correctAnswer)) {
+                if (btn.getText().equals(decodedCorrect)) {
                     btn.setStyle("-fx-font-size: 14px; -fx-padding: 10 15 10 15; -fx-background-color: #16a34a; -fx-text-fill: #f8fafc; -fx-border-radius: 8;");
                 }
             }
@@ -133,6 +116,18 @@ public class TriviaQuestionController {
 
         nextButton.setVisible(true);
         nextButton.setManaged(true);
+    }
+
+    private String decodeHtml(String text) {
+        if (text == null) {
+            return "";
+        }
+        return text.replace("&quot;", "\"")
+                .replace("&amp;", "&")
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&#039;", "'")
+                .replace("&apos;", "'");
     }
 
     @FXML
