@@ -22,8 +22,8 @@ public class HelloController {
     private final List<String> dialogues = List.of(
             "Kiki: QU'est ce que tu fous chez moi jeune Zukuk ?",
             "Kiki: Attends... ce bip dans ma cave, c'est pas mon micro-ondes. Il y a une bombe chez moi !",
-            "Kiki: Le desamorceur est verrouille par un systeme de questions. Si tu rates, le minuteur accelere.",
-            "Kiki: Reponds juste, vite, et on sauve ma maison. Allez, le quiz commence maintenant !"
+            "Kiki: Le desamorceur est verrouille par un systeme de questions. Il faut valider 5 bonnes reponses.",
+            "Kiki: Reponds juste, vite, et on sauve ma maison. Si tu te trompes, recommence et vise 5/5."
     );
 
     private int currentDialogueIndex = 0;
@@ -79,6 +79,7 @@ public class HelloController {
             stage.setScene(new Scene(quizRoot, 780, 460));
             stage.setTitle("Java Quizz - Quiz");
         } catch (Exception exception) {
+            exception.printStackTrace();
             dialogueText.setText("Impossible de charger le quiz");
             nextButton.setDisable(true);
             nextButton.setText("Erreur");
