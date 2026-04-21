@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.net.URL;
 
 public class TriviaQuestionController {
+    private static final int TARGET_CORRECT = 5;
+
     @FXML
     private MenuButton gameMenuButton;
 
@@ -30,18 +32,29 @@ public class TriviaQuestionController {
     private Label feedbackLabel;
 
     @FXML
+    private Label scoreLabel;
+
+    @FXML
     private Button nextButton;
+
+    @FXML
+    private Button restartQuizButton;
 
     private TriviaAPI.Question currentQuestion;
     private boolean answered;
+    private int correctAnswers;
 
     @FXML
     public void initialize() {
+        correctAnswers = 0;
         questionBox.setVisible(true);
         questionBox.setManaged(true);
+        updateScoreLabel();
         feedbackLabel.setText("Chargement...");
         nextButton.setVisible(false);
         nextButton.setManaged(false);
+        restartQuizButton.setVisible(false);
+        restartQuizButton.setManaged(false);
         loadQuestion();
     }
 
@@ -82,6 +95,8 @@ public class TriviaQuestionController {
         feedbackLabel.setText("");
         nextButton.setVisible(false);
         nextButton.setManaged(false);
+        restartQuizButton.setVisible(false);
+        restartQuizButton.setManaged(false);
 
         questionBox.setVisible(true);
         questionBox.setManaged(true);
@@ -99,9 +114,12 @@ public class TriviaQuestionController {
         boolean isCorrect = decodedSelected.equals(decodedCorrect);
 
         if (isCorrect) {
+            correctAnswers++;
             feedbackLabel.setText("Correct");
             feedbackLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #4ade80;");
             clickedButton.setStyle("-fx-font-size: 14px; -fx-padding: 10 15 10 15; -fx-background-color: #16a34a; -fx-text-fill: #f8fafc; -fx-border-radius: 8;");
+            restartQuizButton.setVisible(false);
+            restartQuizButton.setManaged(false);
         } else {
             feedbackLabel.setText("Incorrect");
             feedbackLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #ef4444;");
@@ -113,10 +131,25 @@ public class TriviaQuestionController {
                     btn.setStyle("-fx-font-size: 14px; -fx-padding: 10 15 10 15; -fx-background-color: #16a34a; -fx-text-fill: #f8fafc; -fx-border-radius: 8;");
                 }
             }
+
+            restartQuizButton.setVisible(true);
+            restartQuizButton.setManaged(true);
+        }
+
+        updateScoreLabel();
+
+        if (correctAnswers >= TARGET_CORRECT) {
+            nextButton.setText("Passer a la suite");
+        } else {
+            nextButton.setText("Question suivante");
         }
 
         nextButton.setVisible(true);
         nextButton.setManaged(true);
+    }
+
+    private void updateScoreLabel() {
+        scoreLabel.setText("Progression: " + correctAnswers + "/" + TARGET_CORRECT + " bonnes reponses");
     }
 
     private String decodeHtml(String text) {
@@ -133,7 +166,23 @@ public class TriviaQuestionController {
 
     @FXML
     protected void onNextClick() {
-        goToQuizScreen();
+        if (correctAnswers >= TARGET_CORRECT) {
+            goToQuizScreen();
+            return;
+        }
+
+        feedbackLabel.setText("Chargement...");
+        feedbackLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #f8fafc;");
+        loadQuestion();
+    }
+
+    @FXML
+    protected void onRestartQuizClick() {
+        correctAnswers = 0;
+        updateScoreLabel();
+        feedbackLabel.setText("Quiz recommence");
+        feedbackLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #f8fafc;");
+        loadQuestion();
     }
 
     @FXML

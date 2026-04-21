@@ -52,7 +52,7 @@ public class QuizController {
     private final StringBuilder enteredCode = new StringBuilder();
 
     private final List<String> endDialogues = List.of(
-            "Kiki: Bravo, tu as reussi a recuperer le code de desamorssage.",
+            "Kiki: Bravo, tu as valide les 5 bonnes reponses et recupere le code.",
             "Kiki: Viens, on va dans ma cave le desamorcer.",
             "*Vous descendez rapidement les escaliers vers la cave...*",
             "Kiki: On y est. Le panneau est devant toi, tape le code pour terminer."
